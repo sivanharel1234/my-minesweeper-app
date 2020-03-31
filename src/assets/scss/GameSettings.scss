@@ -1,0 +1,29 @@
+.game-settings {
+  margin: 25px 0;
+  background-color: #004156;
+  width: 400px;
+
+  .title {
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+
+  .width-container, .height-container, .mines-container {
+    margin-bottom: 10px;
+
+    .label {
+      margin-right: 10px;
+      min-width: 40px;
+      display: inline-block;
+    }
+  }
+  .width-container {
+
+  }
+  .height-container {
+
+  }
+  .mines-container {
+
+  }
+}

@@ -1,0 +1,17 @@
+.board {
+  margin-top: 15px;
+
+  .game-status {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  .remaining-flags-indicator {
+
+  }
+  .board-container {
+    margin-top: 10px;
+    border-spacing: 0;
+    border-collapse: collapse;
+  }
+}

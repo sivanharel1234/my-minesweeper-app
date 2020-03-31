@@ -1,0 +1,23 @@
+.cell {
+  border: 2px solid black;
+  width: 30px;
+  height: 30px;
+
+  .flag-image, .mine-image{
+    width: 20px;
+    height: 20px;
+  }
+  .cell-data {
+    background-color: #e8ecf6;
+    width: 100%;
+    height: 100%;
+    color: forestgreen;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+
+    &.covered {
+      background-color: #b1b1b1;
+    }
+  }
+}
