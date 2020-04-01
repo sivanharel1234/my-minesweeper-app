@@ -81,45 +81,32 @@ class Board extends React.Component {
             cellsArray[y][x].isRevealed = true;
         }
         if (cellsArray[y][x].isEmpty) {
-            const cellsForRecursionArray = this.getCellsArrayForRecursion(cellsArray, x, y);
-            for (let i = 0; i < cellsForRecursionArray.length; i++) {
-                this.revealAdjacentEmptyCells(cellsArray, cellsForRecursionArray[i].x, cellsForRecursionArray[i].y);
+
+            if (this.isCellInBound(x+1, y) && !cellsArray[y][x+1].isRevealed) { // right
+                this.revealAdjacentEmptyCells(cellsArray, x+1, y);
+            }
+            if (this.isCellInBound(x+1, y-1) && !cellsArray[y-1][x+1].isRevealed) { //right top
+                this.revealAdjacentEmptyCells(cellsArray, x+1, y-1);
+            }
+            if (this.isCellInBound(x+1, y+1) && !cellsArray[y+1][x+1].isRevealed) { // right bottom
+                this.revealAdjacentEmptyCells(cellsArray, x+1, y+1);
+            }
+            if (this.isCellInBound(x, y-1) && !cellsArray[y-1][x].isRevealed) { // top
+                this.revealAdjacentEmptyCells(cellsArray, x, y-1);
+            }
+            if (this.isCellInBound(x, y+1) && !cellsArray[y+1][x].isRevealed) { // bottom
+                this.revealAdjacentEmptyCells(cellsArray, x, y+1);
+            }
+            if (this.isCellInBound(x-1, y) && !cellsArray[y][x-1].isRevealed) { // left
+                this.revealAdjacentEmptyCells(cellsArray, x-1, y);
+            }
+            if (this.isCellInBound(x-1, y-1) && !cellsArray[y-1][x-1].isRevealed) { // left top
+                this.revealAdjacentEmptyCells(cellsArray, x-1, y-1);
+            }
+            if (this.isCellInBound(x-1, y+1) && !cellsArray[y+1][x-1].isRevealed) { // left bottom
+                this.revealAdjacentEmptyCells(cellsArray, x-1, y+1);
             }
         }
-    }
-
-    getCellsArrayForRecursion(cellsArray, x, y) {
-        const cellsArrayForRecursion = [];
-
-        if (this.shouldAddToCellRecursionArray(cellsArray, x+1, y)) { // right
-            cellsArrayForRecursion.push({x: x + 1, y: y});
-        }
-        if (this.shouldAddToCellRecursionArray(cellsArray, x+1, y-1)) { //right top
-            cellsArrayForRecursion.push({x: x+1, y: y - 1});
-        }
-        if (this.shouldAddToCellRecursionArray(cellsArray, x+1, y+1)) { // right bottom
-            cellsArrayForRecursion.push({x: x+1, y: y + 1});
-        }
-        if (this.shouldAddToCellRecursionArray(cellsArray, x, y-1)) { // top
-            cellsArrayForRecursion.push({x: x, y: y - 1});
-        }
-        if (this.shouldAddToCellRecursionArray(cellsArray, x, y+1)) {// bottom
-            cellsArrayForRecursion.push({x: x, y: y + 1});
-        }
-        if (this.shouldAddToCellRecursionArray(cellsArray, x-1, y)) {// left
-            cellsArrayForRecursion.push({x: x - 1, y: y});
-        }
-        if (this.shouldAddToCellRecursionArray(cellsArray, x-1, y-1)) {// left top
-            cellsArrayForRecursion.push({x: x - 1, y: y - 1});
-        }
-        if (this.shouldAddToCellRecursionArray(cellsArray, x-1, y+1)) {// left bottom
-            cellsArrayForRecursion.push({x: x - 1, y: y + 1});
-        }
-         return cellsArrayForRecursion;
-    }
-
-    shouldAddToCellRecursionArray(cellsArray, x, y) {
-        return this.isCellInBound(x, y) && !cellsArray[y][x].isRevealed;
     }
 
     handleMineCellClick(updatedCellsArray, x, y) {
