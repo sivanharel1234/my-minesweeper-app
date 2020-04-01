@@ -17,6 +17,10 @@
     align-items: center;
 
     &.covered {
+      background-color: #98999b;
+    }
+
+    &.superman-mode  {
       background-color: #b1b1b1;
     }
   }

@@ -9,6 +9,11 @@ class Board extends React.Component {
         flaggedMinesCounter: 0,
         isLost: false,
         isWon: false,
+        isSupermanMode: false,
+    };
+
+    onSupermanModeCheckboxChange = (event) => {
+        this.setState({ isSupermanMode: event.target.checked });
     };
 
     onCellToggle = (item) => {
@@ -51,9 +56,9 @@ class Board extends React.Component {
     };
 
     revealAdjacentEmptyCells(cellsArray, x, y) {
-        if (this.isCellInBound(cellsArray, x, y) && !cellsArray[x][y].isClicked){
+        if (this.isCellInBound(cellsArray, x, y) && !cellsArray[x][y].isRevealed){
             if (!cellsArray[x][y].isMine) {
-                cellsArray[x][y].isClicked = true;
+                cellsArray[x][y].isRevealed = true;
             }
             if (cellsArray[x][y].isEmpty) {
                 this.revealAdjacentEmptyCells(cellsArray, x+1, y); // right
@@ -68,7 +73,7 @@ class Board extends React.Component {
         }
     }
     handleMineCellClick(updatedCellsArray, x, y) {
-        updatedCellsArray[x][y].isClicked = true;
+        updatedCellsArray[x][y].isRevealed = true;
         this.setState({cellsArray: updatedCellsArray, isLost: true });
     }
 
@@ -79,10 +84,6 @@ class Board extends React.Component {
         return cellsArray;
     }
 
-    renderTableCells() {
-        return this.createTableCellsTags();
-    }
-
     createAnEmptyBoardArray() {
         const cellsArray = [];
         for (let x = 0; x < this.props.width; x++) {
@@ -90,7 +91,7 @@ class Board extends React.Component {
             for (let y = 0; y< this.props.height; y++) {
                 rowArray.push({
                     point: { x, y },
-                    isClicked: false,
+                    isRevealed: false,
                     isFlagged: false,
                     isEmpty: false,
                     isMine: false,
@@ -156,7 +157,7 @@ class Board extends React.Component {
         return gameStatus;
     }
 
-    createTableCellsTags() {
+    renderTableCellsTags() {
         const cellsTags = this.state.cellsArray.map((row) => {
             return (<tr key={row[0].point.x}>
                 {row.map(cell => <Cell key={`${cell.point.x},${cell.point.y}`} item={cell} onCellClick={this.onCellClick} onCellToggle={this.onCellToggle} />)}
@@ -169,12 +170,16 @@ class Board extends React.Component {
         return (
             <div className="board">
                 <div className="game-status">{this.getGameStatusLabel()}</div>
+                <div className="superman-mode-checkbox-container">
+                    <input type="checkbox" className="superman-mode-checkbox" name="superman-mode-checkbox" onChange={this.onSupermanModeCheckboxChange}/>
+                    <label htmlFor="superman-mode-checkbox">Superman mode</label>
+                </div>
                 <div className="remaining-flags-indicator">
                     flags left: {this.state.flagsLefts}
                 </div>
                 <table className="board-container">
                     <tbody>
-                        {this.renderTableCells()}
+                        {this.renderTableCellsTags()}
                     </tbody>
                 </table>
             </div>

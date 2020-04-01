@@ -6,18 +6,18 @@ import mineImg from '../assets/images/mine.svg';
 class Cell extends React.Component {
 
     getRelevantCell() {
-        if (!this.props.item.isClicked) {
+        if (!this.props.item.isRevealed) {
             return this.props.item.isFlagged ?
                 <div className="cell-data covered"><img className="flag-image covered" src={flagImg} alt="flag" onClick={this.onClick} /></div> :
                 <div className="cell-data covered" onClick={this.onClick}></div>;
         }
-        if (this.props.item.isEmpty) {
-            return <div className="cell-data"></div>;
-        }
+
         if (this.props.item.isMine) {
             return <div className="cell-data"><img className="mine-image" src={mineImg} alt="mine" /></div>
         }
-        return <div className="cell-data">{this.props.item.minesCount}</div>;
+
+        const cellData = this.props.item.isEmpty ? '' : this.props.item.minesCount;
+        return <div className="cell-data">{cellData}</div>;
     }
 
     onClick = (event) => {
