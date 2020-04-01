@@ -77,36 +77,54 @@ class Board extends React.Component {
     };
 
     revealAdjacentEmptyCells(cellsArray, x, y) {
-        if (!cellsArray[y][x].isMine) {
-            cellsArray[y][x].isRevealed = true;
-        }
-        if (cellsArray[y][x].isEmpty) {
+        cellsArray[y][x].isRevealed = true;
 
-            if (this.isCellInBound(x+1, y) && !cellsArray[y][x+1].isRevealed) { // right
-                this.revealAdjacentEmptyCells(cellsArray, x+1, y);
-            }
-            if (this.isCellInBound(x+1, y-1) && !cellsArray[y-1][x+1].isRevealed) { //right top
-                this.revealAdjacentEmptyCells(cellsArray, x+1, y-1);
-            }
-            if (this.isCellInBound(x+1, y+1) && !cellsArray[y+1][x+1].isRevealed) { // right bottom
-                this.revealAdjacentEmptyCells(cellsArray, x+1, y+1);
-            }
-            if (this.isCellInBound(x, y-1) && !cellsArray[y-1][x].isRevealed) { // top
-                this.revealAdjacentEmptyCells(cellsArray, x, y-1);
-            }
-            if (this.isCellInBound(x, y+1) && !cellsArray[y+1][x].isRevealed) { // bottom
-                this.revealAdjacentEmptyCells(cellsArray, x, y+1);
-            }
-            if (this.isCellInBound(x-1, y) && !cellsArray[y][x-1].isRevealed) { // left
-                this.revealAdjacentEmptyCells(cellsArray, x-1, y);
-            }
-            if (this.isCellInBound(x-1, y-1) && !cellsArray[y-1][x-1].isRevealed) { // left top
-                this.revealAdjacentEmptyCells(cellsArray, x-1, y-1);
-            }
-            if (this.isCellInBound(x-1, y+1) && !cellsArray[y+1][x-1].isRevealed) { // left bottom
-                this.revealAdjacentEmptyCells(cellsArray, x-1, y+1);
+        if (cellsArray[y][x].isEmpty) {
+            const adjacentCells = [{x, y}];
+            while (adjacentCells.length > 0) {
+                let cellCord = adjacentCells.shift();
+                let neighbors = this.getCellsNeighbors(cellsArray, cellCord.x, cellCord.y);
+                neighbors.forEach(neighbor => {
+                    let neighborCell = cellsArray[neighbor.y][neighbor.x];
+                    if (!neighborCell.isRevealed && !neighborCell.isMine) {
+                        neighborCell.isRevealed = true;
+                        if (neighborCell.isEmpty) {
+                            adjacentCells.push(neighbor);
+                        }
+                    }
+                })
             }
         }
+    }
+
+    getCellsNeighbors(cellsArray, x, y) {
+        const neighbors = [];
+
+        if (this.isCellInBound(x+1, y)) { // right
+            neighbors.push({x: x + 1, y: y});
+        }
+        if (this.isCellInBound(x+1, y-1)) { //right top
+            neighbors.push({x: x+1, y: y - 1});
+        }
+        if (this.isCellInBound(x+1, y+1)) { // right bottom
+            neighbors.push({x: x+1, y: y + 1});
+        }
+        if (this.isCellInBound(x, y-1)) { // top
+            neighbors.push({x: x, y: y - 1});
+        }
+        if (this.isCellInBound(x, y+1)) { // bottom
+            neighbors.push({x: x, y: y + 1});
+        }
+        if (this.isCellInBound(x-1, y)) { // left
+            neighbors.push({x: x - 1, y: y});
+        }
+        if (this.isCellInBound(x-1, y-1)) { // left top
+            neighbors.push({x: x - 1, y: y - 1});
+        }
+        if (this.isCellInBound(x-1, y+1)) { // left bottom
+            neighbors.push({x: x - 1, y: y + 1});
+        }
+         return neighbors;
     }
 
     handleMineCellClick(updatedCellsArray, x, y) {
