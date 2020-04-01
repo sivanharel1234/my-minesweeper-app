@@ -77,22 +77,51 @@ class Board extends React.Component {
     };
 
     revealAdjacentEmptyCells(cellsArray, x, y) {
-        if (this.isCellInBound(x, y) && !cellsArray[y][x].isRevealed){
-            if (!cellsArray[y][x].isMine) {
-                cellsArray[y][x].isRevealed = true;
-            }
-            if (cellsArray[y][x].isEmpty) {
-                this.revealAdjacentEmptyCells(cellsArray, x+1, y); // right
-                this.revealAdjacentEmptyCells(cellsArray, x+1, y-1); //right top
-                this.revealAdjacentEmptyCells(cellsArray, x+1, y+1); // right bottom
-                this.revealAdjacentEmptyCells(cellsArray, x, y-1); // top
-                this.revealAdjacentEmptyCells(cellsArray, x, y+1); // bottom
-                this.revealAdjacentEmptyCells(cellsArray, x-1, y); // left
-                this.revealAdjacentEmptyCells(cellsArray, x-1, y-1); // left top
-                this.revealAdjacentEmptyCells(cellsArray, x-1, y+1); // left bottom
+        if (!cellsArray[y][x].isMine) {
+            cellsArray[y][x].isRevealed = true;
+        }
+        if (cellsArray[y][x].isEmpty) {
+            const cellsForRecursionArray = this.getCellsArrayForRecursion(cellsArray, x, y);
+            for (let i = 0; i < cellsForRecursionArray.length; i++) {
+                this.revealAdjacentEmptyCells(cellsArray, cellsForRecursionArray[i].x, cellsForRecursionArray[i].y);
             }
         }
     }
+
+    getCellsArrayForRecursion(cellsArray, x, y) {
+        const cellsArrayForRecursion = [];
+
+        if (this.shouldAddToCellRecursionArray(cellsArray, x+1, y)) { // right
+            cellsArrayForRecursion.push({x: x + 1, y: y});
+        }
+        if (this.shouldAddToCellRecursionArray(cellsArray, x+1, y-1)) { //right top
+            cellsArrayForRecursion.push({x: x+1, y: y - 1});
+        }
+        if (this.shouldAddToCellRecursionArray(cellsArray, x+1, y+1)) { // right bottom
+            cellsArrayForRecursion.push({x: x+1, y: y + 1});
+        }
+        if (this.shouldAddToCellRecursionArray(cellsArray, x, y-1)) { // top
+            cellsArrayForRecursion.push({x: x, y: y - 1});
+        }
+        if (this.shouldAddToCellRecursionArray(cellsArray, x, y+1)) {// bottom
+            cellsArrayForRecursion.push({x: x, y: y + 1});
+        }
+        if (this.shouldAddToCellRecursionArray(cellsArray, x-1, y)) {// left
+            cellsArrayForRecursion.push({x: x - 1, y: y});
+        }
+        if (this.shouldAddToCellRecursionArray(cellsArray, x-1, y-1)) {// left top
+            cellsArrayForRecursion.push({x: x - 1, y: y - 1});
+        }
+        if (this.shouldAddToCellRecursionArray(cellsArray, x-1, y+1)) {// left bottom
+            cellsArrayForRecursion.push({x: x - 1, y: y + 1});
+        }
+         return cellsArrayForRecursion;
+    }
+
+    shouldAddToCellRecursionArray(cellsArray, x, y) {
+        return this.isCellInBound(x, y) && !cellsArray[y][x].isRevealed;
+    }
+
     handleMineCellClick(updatedCellsArray, x, y) {
         updatedCellsArray[y][x].isRevealed = true;
         this.setState({cellsArray: updatedCellsArray, isLost: true });
@@ -180,7 +209,7 @@ class Board extends React.Component {
 
     renderTableCellsTags() {
         const cellsTags = this.state.cellsArray.map((row) => {
-            return (<tr key={row[0].point.x}>
+            return (<tr key={row[0].point.y}>
                 {row.map(cell => <Cell key={`${cell.point.x},${cell.point.y}`} item={cell} onCellClick={this.onCellClick} onCellToggle={this.onCellToggle} />)}
             </tr>)
         });
