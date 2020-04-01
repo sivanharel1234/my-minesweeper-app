@@ -11,12 +11,30 @@ class App extends React.Component {
         numberOfRemainingFlags: 0,
         shouldDisplayBoard: false,
     };
-    onStartGameButtonClick = (gameSettings) => {
+    getGameSettingsErrorMessage(gameSettings) {
         const totalNumberOfCells = gameSettings.width * gameSettings.height;
+        let errorMessage = '';
+
+        if (gameSettings.width <= 0 || gameSettings.width > 300) {
+            errorMessage = 'Width must be between 1 and 300. Please enter a valid number \n\n';
+        }
+        if (gameSettings.height <= 0 || gameSettings.height > 300) {
+            errorMessage += 'Height must be between 1 and 300. Please enter a valid number \n\n';
+        }
         if (gameSettings.mines >= totalNumberOfCells) {
-            alert('Number of mines cannot reach the number of cells. Please enter a valid number');
-        } else if (gameSettings.mines <= 0) {
-            alert('Number of mines must be greater than 0. Please enter a valid number');
+            errorMessage += 'Number of mines cannot reach the number of cells. Please enter a valid number \n\n';
+        }
+        if (gameSettings.mines <= 0) {
+            errorMessage += 'Number of mines must be greater than 0. Please enter a valid number \n\n';
+        }
+
+        return errorMessage;
+    }
+
+    onStartGameButtonClick = (gameSettings) => {
+        const errorMessage = this.getGameSettingsErrorMessage(gameSettings);
+        if (errorMessage) {
+            alert(errorMessage);
         } else {
             this.setState({
                 boardWidth : gameSettings.width,
@@ -45,7 +63,7 @@ class App extends React.Component {
     render() {
         return (
             <div className="my-minesweeper-app">
-                <div className="app-title">Minesweeper:</div>
+                <div className="app-title">Minesweeper by Sivan Harel</div>
                 <GameSettings
                     onStartButonClick={this.onStartGameButtonClick}
                 />

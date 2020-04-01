@@ -14,7 +14,14 @@ class Board extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps !== this.props) {
-            this.setState({ cellsArray: this.initCellsArray() });
+            this.setState({
+                flagsLefts: this.props.numberOfRemainingFlags,
+                cellsArray: this.initCellsArray(),
+                flaggedMinesCounter: 0,
+                isLost: false,
+                isWon: false,
+                isSupermanMode: false,
+            });
         }
     }
 
@@ -23,6 +30,10 @@ class Board extends React.Component {
     };
 
     onCellToggle = (item) => {
+        if  (this.state.isWon || this.state.isLost) {
+            return;
+        }
+
         if (this.state.flagsLefts === 0 && !item.isFlagged) {
             alert("You don't have flags. /n In order to add a flag, you should first remove a flag from other cell.")
         } else {
@@ -51,6 +62,10 @@ class Board extends React.Component {
     };
 
     onCellClick = (item) => {
+        if  (this.state.isWon || this.state.isLost) {
+            return;
+        }
+
         let updatedCellsArray = this.state.cellsArray;
 
         if (updatedCellsArray[item.point.y][item.point.x].isMine) {
@@ -174,17 +189,19 @@ class Board extends React.Component {
 
     render() {
         const boardClass = this.state.isSupermanMode ? "board-container superman-mode" : "board-container";
+        const cellWidth = 18;
+
         return (
             <div className="board">
                 <div className="game-status">{this.getGameStatusLabel()}</div>
                 <div className="superman-mode-checkbox-container">
-                    <input type="checkbox" className="superman-mode-checkbox" name="superman-mode-checkbox" onChange={this.onSupermanModeCheckboxChange}/>
+                    <input type="checkbox" className="superman-mode-checkbox" id="superman-mode-checkbox" checked={this.state.isSupermanMode} onChange={this.onSupermanModeCheckboxChange}/>
                     <label htmlFor="superman-mode-checkbox">Superman mode</label>
                 </div>
                 <div className="remaining-flags-indicator">
                     flags left: {this.state.flagsLefts}
                 </div>
-                <table className={boardClass} style={{minWidth: this.props.width * 15}}>
+                <table className={boardClass} style={{minWidth: this.props.width * cellWidth}}>
                     <tbody>
                         {this.renderTableCellsTags()}
                     </tbody>
