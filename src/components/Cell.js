@@ -5,24 +5,7 @@ import mineImg from '../assets/images/mine.svg';
 
 class Cell extends React.Component {
 
-    getRelevantCell() {
-        if (!this.props.item.isRevealed) {
-            return this.props.item.isFlagged ?
-                <div className="cell-data covered"><img className="flag-image covered" src={flagImg} alt="flag" onClick={this.onClick} /></div> :
-                <div className="cell-data covered" onClick={this.onClick}></div>;
-        }
-
-        if (this.props.item.isMine) {
-            return <div className="cell-data"><img className="mine-image" src={mineImg} alt="mine" /></div>
-        }
-
-        const cellData = this.props.item.isEmpty ? '' : this.props.item.minesCount;
-        return <div className="cell-data">{cellData}</div>;
-    }
-
     onClick = (event) => {
-        event.stopPropagation();
-
         if (event.shiftKey) {
             this.props.onCellToggle(this.props.item);
         } else if (!this.props.item.isFlagged) {
@@ -31,9 +14,22 @@ class Cell extends React.Component {
     };
 
     render() {
+        let cellData = '';
+        if (this.props.item.isMine) {
+            cellData = <img className="mine-image" src={mineImg} alt="mine" />;
+        }
+        else if (!this.props.item.isEmpty) {
+            cellData = <span className="mines-count">{this.props.item.minesCount}</span>;
+        }
+        const cellDataLayer = <div className="cell-data-layer">{cellData}</div>;
+        const coverLayer = !this.props.item.isRevealed ? <div className="cell-cover-layer" onClick={this.onClick}></div> : '';
+        const flagLayer = this.props.item.isFlagged ? <div className="cell-flag-layer" onClick={this.onClick}><img className="flag-image" src={flagImg} alt="flag"/></div> : '';
+
         return (
             <td className="cell">
-                {this.getRelevantCell()}
+                {cellDataLayer}
+                {coverLayer}
+                {flagLayer}
             </td>
         );
     }

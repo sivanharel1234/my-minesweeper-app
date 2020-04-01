@@ -9,15 +9,15 @@ class GameSettings extends React.Component {
     };
 
     onWidthInputChange = (event) => {
-        this.setState({ width: event.target.value });
+        this.setState({ width: Number(event.target.value) });
     };
 
     onHeightInputChange = (event) => {
-        this.setState({ height: event.target.value });
+        this.setState({ height: Number(event.target.value) });
     };
 
     onMinesInputChange = (event) => {
-        this.setState({ mines: event.target.value });
+        this.setState({ mines: Number(event.target.value) });
     };
 
     onStartGameButtonClick = () => {

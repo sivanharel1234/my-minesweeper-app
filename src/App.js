@@ -13,15 +13,16 @@ class App extends React.Component {
     };
     onStartGameButtonClick = (gameSettings) => {
         const totalNumberOfCells = gameSettings.width * gameSettings.height;
-        if (gameSettings.numberOfMines < totalNumberOfCells && gameSettings.numberOfMines > 0) {
-            alert('The numbers of mines must be a number between 0 to the total number of cells. Please enter a valid number');
-        }
-        else {
+        if (gameSettings.mines >= totalNumberOfCells) {
+            alert('Number of mines cannot reach the number of cells. Please enter a valid number');
+        } else if (gameSettings.mines <= 0) {
+            alert('Number of mines must be greater than 0. Please enter a valid number');
+        } else {
             this.setState({
-                boardWidth : Number(gameSettings.width),
-                boardHeight: Number(gameSettings.height),
-                numberOfMines: Number(gameSettings.mines),
-                numberOfRemainingFlags: Number(gameSettings.mines),
+                boardWidth : gameSettings.width,
+                boardHeight: gameSettings.height,
+                numberOfMines: gameSettings.mines,
+                numberOfRemainingFlags: gameSettings.mines,
                 shouldDisplayBoard: true,
             });
         }

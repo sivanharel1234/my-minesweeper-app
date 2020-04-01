@@ -12,19 +12,25 @@ class Board extends React.Component {
         isSupermanMode: false,
     };
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps !== this.props) {
+            this.setState({ cellsArray: this.initCellsArray() });
+        }
+    }
+
     onSupermanModeCheckboxChange = (event) => {
         this.setState({ isSupermanMode: event.target.checked });
     };
 
     onCellToggle = (item) => {
         if (this.state.flagsLefts === 0 && !item.isFlagged) {
-            alert("You don't have any more flags. In order to add a flag for this cell you should first remove a flag from another cell.")
+            alert("You don't have flags. /n In order to add a flag, you should first remove a flag from other cell.")
         } else {
             const updatedCellsArray = this.state.cellsArray;
             let updatedFlagsLefts = this.state.flagsLefts;
             let updatedFlaggedMinesCounter = this.state.flaggedMinesCounter;
 
-            updatedCellsArray[item.point.x][item.point.y].isFlagged = !item.isFlagged;
+            updatedCellsArray[item.point.y][item.point.x].isFlagged = !item.isFlagged;
 
             if (item.isFlagged) {
                 updatedFlagsLefts--;
@@ -47,7 +53,7 @@ class Board extends React.Component {
     onCellClick = (item) => {
         let updatedCellsArray = this.state.cellsArray;
 
-        if (updatedCellsArray[item.point.x][item.point.y].isMine) {
+        if (updatedCellsArray[item.point.y][item.point.x].isMine) {
             this.handleMineCellClick(updatedCellsArray, item.point.x, item.point.y)
         } else {
             this.revealAdjacentEmptyCells(updatedCellsArray, item.point.x, item.point.y);
@@ -56,11 +62,11 @@ class Board extends React.Component {
     };
 
     revealAdjacentEmptyCells(cellsArray, x, y) {
-        if (this.isCellInBound(cellsArray, x, y) && !cellsArray[x][y].isRevealed){
-            if (!cellsArray[x][y].isMine) {
-                cellsArray[x][y].isRevealed = true;
+        if (this.isCellInBound(x, y) && !cellsArray[y][x].isRevealed){
+            if (!cellsArray[y][x].isMine) {
+                cellsArray[y][x].isRevealed = true;
             }
-            if (cellsArray[x][y].isEmpty) {
+            if (cellsArray[y][x].isEmpty) {
                 this.revealAdjacentEmptyCells(cellsArray, x+1, y); // right
                 this.revealAdjacentEmptyCells(cellsArray, x+1, y-1); //right top
                 this.revealAdjacentEmptyCells(cellsArray, x+1, y+1); // right bottom
@@ -73,7 +79,7 @@ class Board extends React.Component {
         }
     }
     handleMineCellClick(updatedCellsArray, x, y) {
-        updatedCellsArray[x][y].isRevealed = true;
+        updatedCellsArray[y][x].isRevealed = true;
         this.setState({cellsArray: updatedCellsArray, isLost: true });
     }
 
@@ -86,9 +92,9 @@ class Board extends React.Component {
 
     createAnEmptyBoardArray() {
         const cellsArray = [];
-        for (let x = 0; x < this.props.width; x++) {
+        for (let y = 0; y < this.props.height; y++) {
             const rowArray = [];
-            for (let y = 0; y< this.props.height; y++) {
+            for (let x = 0; x< this.props.width; x++) {
                 rowArray.push({
                     point: { x, y },
                     isRevealed: false,
@@ -109,19 +115,19 @@ class Board extends React.Component {
         while (minesCount < this.props.numberOfMines) {
             let x = Math.floor(Math.random() * this.props.width);
             let y = Math.floor(Math.random() * this.props.height);
-            if (!cellsArray[x][y].isMine) {
-                cellsArray[x][y].isMine = true;
+            if (!cellsArray[y][x].isMine) {
+                cellsArray[y][x].isMine = true;
                 minesCount++;
             }
         }
     }
 
     updateMinesCounts(cellsArray) {
-        for (let x = 0; x < this.props.width; x++) {
-            for (let y = 0; y < this.props.height; y++) {
-                if(!cellsArray[x][y].isMine) {
-                    cellsArray[x][y].minesCount = this.calculateAdjacentMines(cellsArray, x, y);
-                    cellsArray[x][y].isEmpty = cellsArray[x][y].minesCount === 0;
+        for (let y = 0; y < this.props.height; y++) {
+            for (let x = 0; x < this.props.width; x++) {
+                if(!cellsArray[y][x].isMine) {
+                    cellsArray[y][x].minesCount = this.calculateAdjacentMines(cellsArray, x, y);
+                    cellsArray[y][x].isEmpty = cellsArray[y][x].minesCount === 0;
                 }
             }
         }
@@ -139,10 +145,10 @@ class Board extends React.Component {
     }
 
     isMine(cellsArray, x, y) {
-        return this.isCellInBound(cellsArray, x, y) && cellsArray[x][y].isMine;
+        return this.isCellInBound(x, y) && cellsArray[y][x].isMine;
     }
 
-    isCellInBound(cellsArray, x, y) {
+    isCellInBound(x, y) {
         return x < this.props.width &&  x >= 0 &&
             y < this.props.height && y >= 0;
     }
@@ -167,6 +173,7 @@ class Board extends React.Component {
     }
 
     render() {
+        const boardClass = this.state.isSupermanMode ? "board-container superman-mode" : "board-container";
         return (
             <div className="board">
                 <div className="game-status">{this.getGameStatusLabel()}</div>
@@ -177,7 +184,7 @@ class Board extends React.Component {
                 <div className="remaining-flags-indicator">
                     flags left: {this.state.flagsLefts}
                 </div>
-                <table className="board-container">
+                <table className={boardClass} style={{minWidth: this.props.width * 15}}>
                     <tbody>
                         {this.renderTableCellsTags()}
                     </tbody>
