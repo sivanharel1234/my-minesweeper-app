@@ -50,11 +50,11 @@ class App extends React.Component {
         if(this.state.shouldDisplayBoard) {
             return (
                 <Board
-                width={this.state.boardWidth}
-                height={this.state.boardHeight}
-                numberOfMines={this.state.numberOfMines}
-                numberOfRemainingFlags={this.state.numberOfRemainingFlags}
-            />
+                    width={this.state.boardWidth}
+                    height={this.state.boardHeight}
+                    numberOfMines={this.state.numberOfMines}
+                    numberOfRemainingFlags={this.state.numberOfRemainingFlags}
+                />
             );
         }
         return null;
