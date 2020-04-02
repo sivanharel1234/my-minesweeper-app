@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/sivanharel1234/my-minesweeper-app/static/css/main.27aaed13.chunk.css",
-    "main.js": "/sivanharel1234/my-minesweeper-app/static/js/main.8334d3dd.chunk.js",
-    "main.js.map": "/sivanharel1234/my-minesweeper-app/static/js/main.8334d3dd.chunk.js.map",
-    "runtime-main.js": "/sivanharel1234/my-minesweeper-app/static/js/runtime-main.6c41a7c5.js",
-    "runtime-main.js.map": "/sivanharel1234/my-minesweeper-app/static/js/runtime-main.6c41a7c5.js.map",
-    "static/js/2.ab1d3f7c.chunk.js": "/sivanharel1234/my-minesweeper-app/static/js/2.ab1d3f7c.chunk.js",
-    "static/js/2.ab1d3f7c.chunk.js.map": "/sivanharel1234/my-minesweeper-app/static/js/2.ab1d3f7c.chunk.js.map",
-    "index.html": "/sivanharel1234/my-minesweeper-app/index.html",
-    "precache-manifest.3786935fec03ce56b7278c31fefeb846.js": "/sivanharel1234/my-minesweeper-app/precache-manifest.3786935fec03ce56b7278c31fefeb846.js",
-    "service-worker.js": "/sivanharel1234/my-minesweeper-app/service-worker.js",
-    "static/css/main.27aaed13.chunk.css.map": "/sivanharel1234/my-minesweeper-app/static/css/main.27aaed13.chunk.css.map",
-    "static/js/2.ab1d3f7c.chunk.js.LICENSE.txt": "/sivanharel1234/my-minesweeper-app/static/js/2.ab1d3f7c.chunk.js.LICENSE.txt",
-    "static/media/flag.svg": "/sivanharel1234/my-minesweeper-app/static/media/flag.4f2d7cfb.svg",
-    "static/media/mine.svg": "/sivanharel1234/my-minesweeper-app/static/media/mine.364fd970.svg"
+    "main.css": "/my-minesweeper-app/static/css/main.27aaed13.chunk.css",
+    "main.js": "/my-minesweeper-app/static/js/main.b6647660.chunk.js",
+    "main.js.map": "/my-minesweeper-app/static/js/main.b6647660.chunk.js.map",
+    "runtime-main.js": "/my-minesweeper-app/static/js/runtime-main.594837c4.js",
+    "runtime-main.js.map": "/my-minesweeper-app/static/js/runtime-main.594837c4.js.map",
+    "static/js/2.ab1d3f7c.chunk.js": "/my-minesweeper-app/static/js/2.ab1d3f7c.chunk.js",
+    "static/js/2.ab1d3f7c.chunk.js.map": "/my-minesweeper-app/static/js/2.ab1d3f7c.chunk.js.map",
+    "index.html": "/my-minesweeper-app/index.html",
+    "precache-manifest.71ab90c5744ba79ca0d1fb002368bb53.js": "/my-minesweeper-app/precache-manifest.71ab90c5744ba79ca0d1fb002368bb53.js",
+    "service-worker.js": "/my-minesweeper-app/service-worker.js",
+    "static/css/main.27aaed13.chunk.css.map": "/my-minesweeper-app/static/css/main.27aaed13.chunk.css.map",
+    "static/js/2.ab1d3f7c.chunk.js.LICENSE.txt": "/my-minesweeper-app/static/js/2.ab1d3f7c.chunk.js.LICENSE.txt",
+    "static/media/flag.svg": "/my-minesweeper-app/static/media/flag.4f2d7cfb.svg",
+    "static/media/mine.svg": "/my-minesweeper-app/static/media/mine.364fd970.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.6c41a7c5.js",
+    "static/js/runtime-main.594837c4.js",
     "static/js/2.ab1d3f7c.chunk.js",
     "static/css/main.27aaed13.chunk.css",
-    "static/js/main.8334d3dd.chunk.js"
+    "static/js/main.b6647660.chunk.js"
   ]
 }
