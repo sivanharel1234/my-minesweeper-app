@@ -2,7 +2,7 @@
   "name": "my-minesweeper-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://github.com/sivanharel1234/my-minesweeper-app",
+  "homepage": "https://sivanharel1234.github.io/my-minesweeper-app",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
